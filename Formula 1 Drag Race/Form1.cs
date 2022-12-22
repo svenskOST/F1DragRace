@@ -1,8 +1,6 @@
-using System.Windows.Forms;
-
 namespace Formula_1_Drag_Race
 {
-    public partial class Form1 : Form
+    public partial class GameForm : Form
     {
         double playerSpeed = 0;
         double opponentSpeed = 0;
@@ -12,13 +10,14 @@ namespace Formula_1_Drag_Race
         bool sDown;
         bool gameFinished;
 
-        public Form1()
+        Graphics? graphics;
+
+        public GameForm()
         {
             InitializeComponent();
-            timer1.Start();
         }
 
-        private void OnTick(object sender, EventArgs e)
+        private void RefreshGame(object sender, EventArgs e)
         {
             if (player.Right >= finishLine1.Left && gameFinished == false)
             {
@@ -38,28 +37,28 @@ namespace Formula_1_Drag_Race
                 {
                     if (playerSpeed < maxSpeed)
                     {
-                        playerSpeed += 0.1;
+                        playerSpeed += 0.3;
                     }
                 }
                 else if (sDown == true)
                 {
                     if (playerSpeed > 0)
                     {
-                        playerSpeed -= 0.1;
+                        playerSpeed -= 0.3;
                     }
                 }
             }
 
             if (opponentSpeed < maxSpeed)
             {
-                opponentSpeed += 0.08;
+                opponentSpeed += 0.4;
             }
 
             player.Left += (int)Math.Round(playerSpeed);
             opponent.Left += (int)Math.Round(opponentSpeed);
         }
 
-        private void KD(object sender, KeyEventArgs e)
+        private void IsKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.W)
             {
@@ -69,9 +68,13 @@ namespace Formula_1_Drag_Race
             {
                 sDown = true;
             }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                LightsOut();
+            }
         }
 
-        private void KU(object sender, KeyEventArgs e)
+        private void IsKeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.W)
             {
@@ -82,5 +85,41 @@ namespace Formula_1_Drag_Race
                 sDown = false;
             }
         }
+
+        private void LightsOut()
+        {
+            label2.Visible = false;
+
+            graphics = CreateGraphics();
+
+            Rectangle container = new(377, 270, 525, 100);
+            graphics.FillRectangle(Brushes.Black, container);
+
+            Rectangle[] light = new Rectangle[5];
+
+            for (int i = 0; i < light.Length; i++)
+            {
+                light[i] = new(398 + i * 101, 280, 80, 80);
+                graphics.FillEllipse(Brushes.DarkGray, light[i]);
+            }
+
+            for (int i = 0; i < light.Length; i++)
+            {
+                Thread.Sleep(1000);
+                graphics.FillEllipse(Brushes.Red, light[i]);
+            }
+            Random random = new Random();
+            int rand = random.Next(200, 4000);
+            Thread.Sleep(rand);
+
+            for (int i = 0; i < light.Length; i++)
+            {
+                graphics.FillEllipse(Brushes.DarkGray, light[i]);
+            }
+            timer1.Start();
+        }
     }
 }
+
+//göra opponent till player2 som styrs med piltangenterna
+//göra om player variables till objekt (player1) med egenskaper (maxspeed) och metoder (Drive eller accelerate osv)
