@@ -44,55 +44,70 @@ namespace Formula_1_Drag_Race
                 //freeroam or restart
             }
 
-            if (Focused)
-            {
-                if (wDown == true)
+
+            if (wDown == true)
                 {
                     if (player1Speed < maxSpeed)
                     {
                         player1Speed += 0.3;
                     }
+                    if (player1Speed < 0)
+                    {
+                        player1Speed += 0.6;
+                    }
                 }
-                else if (sDown == true)
+            else if (sDown == true)
                 {
                     if (player1Speed > maxReverse)
                     {
-                        player1Speed -= 0.2;
+                        player1Speed -= 0.15;
+                    }
+                    if (player1Speed > 0)
+                    {
+                        player1Speed -= 0.6;
                     }
                 }
 
-                if (upDown == true)
+            if (upDown == true)
                 {
                     if (player2Speed < maxSpeed)
                     {
                         player2Speed += 0.3;
                     }
+                    if (player2Speed < 0)
+                    {
+                        player2Speed += 0.6;
+                    }
                 }
-                else if (downDown == true)
+            else if (downDown == true)
                 {
                     if (player2Speed > maxReverse)
                     {
-                        player2Speed -= 0.2;
+                        player2Speed -= 0.15;
+                    }
+                    if (player2Speed > 0)
+                    {
+                        player2Speed -= 0.6;
                     }
                 }
-            }
+            
 
             if (player1Speed > 0 && wDown == false)
             {
-                player1Speed -= 0.1;
+                player1Speed -= 0.2;
             }
             else if (player1Speed < 0 && sDown == false)
             {
-                player1Speed += 0.1;
+                player1Speed += 0.3;
             }
 
             if (player2Speed > 0 && upDown == false)
             {
-                player2Speed -= 0.1;
+                player2Speed -= 0.2;
             }
             else if (player2Speed < 0 && downDown == false)
             {
-                player2Speed += 0.1;
+                player2Speed += 0.3;
             }
 
             if (player1.Left >= 1280)
@@ -207,7 +222,7 @@ namespace Formula_1_Drag_Race
 }
 
 //lägga till jumpstart och cheating (om man backar)
-//göra fö+nstret och contenten responsiv/anpassningsbar
+//göra fönstret och contenten responsiv/anpassningsbar
 //när någon vunnit ska det komma upp ett val så man kan reset game eller freeroam (med en paus ikon)
 //göra meny som låter en gå direkt till freeroam eller dragrace
 //lägga till UI som visar speed, distance och reaction time för player 1 och 2

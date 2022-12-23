@@ -58,7 +58,7 @@
             // 
             // player1
             // 
-            this.player1.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.player1.BackColor = System.Drawing.Color.Transparent;
             this.player1.Image = ((System.Drawing.Image)(resources.GetObject("player1.Image")));
             this.player1.Location = new System.Drawing.Point(28, 444);
             this.player1.Name = "player1";
@@ -69,6 +69,7 @@
             // 
             // player2
             // 
+            this.player2.BackColor = System.Drawing.Color.Transparent;
             this.player2.Image = ((System.Drawing.Image)(resources.GetObject("player2.Image")));
             this.player2.Location = new System.Drawing.Point(28, 590);
             this.player2.Name = "player2";
