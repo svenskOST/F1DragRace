@@ -1,13 +1,18 @@
+using Timer = System.Threading.Timer;
+
 namespace Formula_1_Drag_Race
 {
     public partial class GameForm : Form
     {
-        double playerSpeed = 0;
-        double opponentSpeed = 0;
-        double maxSpeed = 100;
+        double player1Speed = 0;
+        double player2Speed = 0;
+        readonly double maxSpeed = 100;
+        readonly double maxReverse = -40;
 
         bool wDown;
         bool sDown;
+        bool upDown;
+        bool downDown;
         bool gameFinished;
 
         Graphics? graphics;
@@ -19,43 +24,97 @@ namespace Formula_1_Drag_Race
 
         private void RefreshGame(object sender, EventArgs e)
         {
-            if (player.Right >= finishLine1.Left && gameFinished == false)
+            if (player1.Right >= finishLine1.Left && gameFinished == false)
             {
-                label1.Text = "You win!";
+                label1.Text = "Player 1 wins!";
                 gameFinished = true;
+                player1Speed = 0;
+                player2Speed = 0;
+                //timer1.Stop();
+                //freeroam or restart
             }
 
-            if (opponent.Right >= finishLine1.Left && gameFinished == false)
+            if (player2.Right >= finishLine1.Left && gameFinished == false)
             {
-                label1.Text = "You lose!";
+                label1.Text = "Player 2 wins!";
                 gameFinished = true;
+                player1Speed = 0;
+                player2Speed = 0;
+                //timer1.Stop();
+                //freeroam or restart
             }
 
             if (Focused)
             {
                 if (wDown == true)
                 {
-                    if (playerSpeed < maxSpeed)
+                    if (player1Speed < maxSpeed)
                     {
-                        playerSpeed += 0.3;
+                        player1Speed += 0.3;
                     }
                 }
                 else if (sDown == true)
                 {
-                    if (playerSpeed > 0)
+                    if (player1Speed > maxReverse)
                     {
-                        playerSpeed -= 0.3;
+                        player1Speed -= 0.2;
+                    }
+                }
+
+                if (upDown == true)
+                {
+                    if (player2Speed < maxSpeed)
+                    {
+                        player2Speed += 0.3;
+                    }
+                }
+                else if (downDown == true)
+                {
+                    if (player2Speed > maxReverse)
+                    {
+                        player2Speed -= 0.2;
                     }
                 }
             }
 
-            if (opponentSpeed < maxSpeed)
+            if (player1Speed > 0 && wDown == false)
             {
-                opponentSpeed += 0.4;
+                player1Speed -= 0.1;
+            }
+            else if (player1Speed < 0 && sDown == false)
+            {
+                player1Speed += 0.1;
             }
 
-            player.Left += (int)Math.Round(playerSpeed);
-            opponent.Left += (int)Math.Round(opponentSpeed);
+            if (player2Speed > 0 && upDown == false)
+            {
+                player2Speed -= 0.1;
+            }
+            else if (player2Speed < 0 && downDown == false)
+            {
+                player2Speed += 0.1;
+            }
+
+            if (player1.Left >= 1280)
+            {
+                player1.Left = -200;
+            }
+            else if (player1.Right <= 0)
+            {
+                player1.Left = 1280;
+            }
+
+            if (player2.Left >= 1280)
+            {
+                player2.Left = -200;
+            }
+            else if (player2.Right <= 0)
+            {
+                player2.Left = 1280;
+            }
+
+            player1.Left += (int)Math.Round(player1Speed);
+            player2.Left += (int)Math.Round(player2Speed);
         }
 
         private void IsKeyDown(object sender, KeyEventArgs e)
@@ -68,7 +127,17 @@ namespace Formula_1_Drag_Race
             {
                 sDown = true;
             }
-            else if (e.KeyCode == Keys.Enter)
+
+            if (e.KeyCode == Keys.Up)
+            {
+                upDown = true;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                downDown = true;
+            }
+
+            if (e.KeyCode == Keys.Enter)
             {
                 LightsOut();
             }
@@ -83,6 +152,15 @@ namespace Formula_1_Drag_Race
             else if (e.KeyCode == Keys.S)
             {
                 sDown = false;
+            }
+
+            if (e.KeyCode == Keys.Up)
+            {
+                upDown = false;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                downDown = false;
             }
         }
 
@@ -108,7 +186,7 @@ namespace Formula_1_Drag_Race
                 Thread.Sleep(1000);
                 graphics.FillEllipse(Brushes.Red, light[i]);
             }
-            Random random = new Random();
+            Random random = new();
             int rand = random.Next(200, 4000);
             Thread.Sleep(rand);
 
@@ -117,9 +195,21 @@ namespace Formula_1_Drag_Race
                 graphics.FillEllipse(Brushes.DarkGray, light[i]);
             }
             timer1.Start();
+            Timer timer = new(HideLights, null, 1000, Timeout.Infinite);
+        }
+
+        private void HideLights(object? state)
+        {
+            Invalidate();
+            graphics?.Dispose();
         }
     }
 }
 
-//göra opponent till player2 som styrs med piltangenterna
-//göra om player variables till objekt (player1) med egenskaper (maxspeed) och metoder (Drive eller accelerate osv)
+//lägga till jumpstart och cheating (om man backar)
+//göra fö+nstret och contenten responsiv/anpassningsbar
+//när någon vunnit ska det komma upp ett val så man kan reset game eller freeroam (med en paus ikon)
+//göra meny som låter en gå direkt till freeroam eller dragrace
+//lägga till UI som visar speed, distance och reaction time för player 1 och 2
+//göra om player variables till objekt (player1) med egenskaper (maxspeed) och metoder (Drive eller accelerate osv) 
+//fixa så bilarnas movement blir smooth, just nu hackigt för att jag tvingas avrunda uträkningen av positionerna vid varje tick - så de hoppar tillbaka ibland
