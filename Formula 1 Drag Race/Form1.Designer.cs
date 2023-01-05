@@ -31,11 +31,23 @@
             this.finishLine1 = new System.Windows.Forms.PictureBox();
             this.finishLine3 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.display = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.speedText1 = new System.Windows.Forms.Label();
+            this.speedText2 = new System.Windows.Forms.Label();
+            this.reactionText1 = new System.Windows.Forms.Label();
+            this.reactionText2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.player1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.player2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.finishLine2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.finishLine1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.finishLine3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.display)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -124,12 +136,128 @@
             this.label2.Text = "Press Enter to play...";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // display
+            // 
+            this.display.BackColor = System.Drawing.Color.Black;
+            this.display.Location = new System.Drawing.Point(-14, 681);
+            this.display.Name = "display";
+            this.display.Size = new System.Drawing.Size(1280, 200);
+            this.display.TabIndex = 8;
+            this.display.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Black;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Location = new System.Drawing.Point(282, 697);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(308, 164);
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Black;
+            this.label3.Font = new System.Drawing.Font("Unispace", 32.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label3.Location = new System.Drawing.Point(28, 757);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(230, 51);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Player 1";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Black;
+            this.label4.Font = new System.Drawing.Font("Unispace", 32.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.label4.Location = new System.Drawing.Point(657, 757);
+            this.label4.Margin = new System.Windows.Forms.Padding(0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(230, 51);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Player 2";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Black;
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox2.Location = new System.Drawing.Point(912, 697);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(308, 164);
+            this.pictureBox2.TabIndex = 12;
+            this.pictureBox2.TabStop = false;
+            // 
+            // speedText1
+            // 
+            this.speedText1.BackColor = System.Drawing.Color.Black;
+            this.speedText1.Font = new System.Drawing.Font("Unispace", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.speedText1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.speedText1.Location = new System.Drawing.Point(290, 800);
+            this.speedText1.Margin = new System.Windows.Forms.Padding(0);
+            this.speedText1.Name = "speedText1";
+            this.speedText1.Size = new System.Drawing.Size(292, 44);
+            this.speedText1.TabIndex = 13;
+            this.speedText1.Text = "0 km/h";
+            this.speedText1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // speedText2
+            // 
+            this.speedText2.BackColor = System.Drawing.Color.Black;
+            this.speedText2.Font = new System.Drawing.Font("Unispace", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.speedText2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.speedText2.Location = new System.Drawing.Point(920, 800);
+            this.speedText2.Margin = new System.Windows.Forms.Padding(0);
+            this.speedText2.Name = "speedText2";
+            this.speedText2.Size = new System.Drawing.Size(292, 44);
+            this.speedText2.TabIndex = 14;
+            this.speedText2.Text = "0 km/h";
+            this.speedText2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // reactionText1
+            // 
+            this.reactionText1.BackColor = System.Drawing.Color.Black;
+            this.reactionText1.Font = new System.Drawing.Font("Unispace", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.reactionText1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.reactionText1.Location = new System.Drawing.Point(290, 709);
+            this.reactionText1.Margin = new System.Windows.Forms.Padding(0);
+            this.reactionText1.Name = "reactionText1";
+            this.reactionText1.Size = new System.Drawing.Size(294, 44);
+            this.reactionText1.TabIndex = 15;
+            this.reactionText1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // reactionText2
+            // 
+            this.reactionText2.BackColor = System.Drawing.Color.Black;
+            this.reactionText2.Font = new System.Drawing.Font("Unispace", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.reactionText2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.reactionText2.Location = new System.Drawing.Point(920, 709);
+            this.reactionText2.Margin = new System.Windows.Forms.Padding(0);
+            this.reactionText2.Name = "reactionText2";
+            this.reactionText2.Size = new System.Drawing.Size(294, 44);
+            this.reactionText2.TabIndex = 16;
+            this.reactionText2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.ClientSize = new System.Drawing.Size(1264, 881);
+            this.Controls.Add(this.reactionText2);
+            this.Controls.Add(this.reactionText1);
+            this.Controls.Add(this.speedText2);
+            this.Controls.Add(this.speedText1);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.display);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.player2);
             this.Controls.Add(this.player1);
@@ -147,6 +275,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.finishLine2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.finishLine1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.finishLine3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.display)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,5 +292,14 @@
         private PictureBox finishLine1;
         private PictureBox finishLine3;
         private Label label2;
+        private PictureBox display;
+        private PictureBox pictureBox1;
+        private Label label3;
+        private Label label4;
+        private PictureBox pictureBox2;
+        private Label speedText1;
+        private Label speedText2;
+        private Label reactionText1;
+        private Label reactionText2;
     }
 }
