@@ -39,7 +39,7 @@ namespace Formula_1_Drag_Race
                     gameFinished = true;
                     //restart button
                 }
-                else if (player1.Left <= finishLine1.Right && player1.Left > 500)
+                else if (player1.Left <= finishLine1.Right && player1.Left > 500 && player1Speed < 0)
                 {
                     label1.ForeColor = Color.Red;
                     label1.Text = "Player 1 cheated!";
@@ -52,7 +52,7 @@ namespace Formula_1_Drag_Race
                     gameFinished = true;
                     //restart button
                 }
-                else if (player2.Left <= finishLine1.Right && player2.Left > 500)
+                else if (player2.Left <= finishLine1.Right && player2.Left > 500 && player2Speed < 0)
                 {
                     label1.ForeColor = Color.Red;
                     label1.Text = "Player 2 cheated!";
@@ -173,7 +173,7 @@ namespace Formula_1_Drag_Race
                         reaction1.Stop();
                         reactionText1.Text = "Reaction: " + reaction1.ElapsedMilliseconds.ToString() + " ms";
                     }
-                    else if (reaction1.IsRunning == false)
+                    else if (reaction1.IsRunning == false && gameFinished == false)
                     {
                         reactionText1.ForeColor = Color.Red;
                         reactionText1.Text = "Jumpstart!";
@@ -199,7 +199,7 @@ namespace Formula_1_Drag_Race
                         reaction2.Stop();
                         reactionText2.Text = "Reaction: " + reaction2.ElapsedMilliseconds.ToString() + " ms";
                     }
-                    else if (reaction2.IsRunning == false)
+                    else if (reaction2.IsRunning == false && gameFinished == false)
                     {
                         reactionText2.ForeColor = Color.Red;
                         reactionText2.Text = "Jumpstart!";
