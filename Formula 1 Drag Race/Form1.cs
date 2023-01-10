@@ -15,11 +15,11 @@ namespace Formula_1_Drag_Race
         bool upDown;
         bool downDown;
         bool gameFinished;
-        bool gameStarted = false;
         bool firstPress1 = true;
         bool firstPress2 = true;
 
         Graphics? graphics;
+        Rectangle[] light;
 
         readonly Stopwatch reaction1 = new();
         readonly Stopwatch reaction2 = new();
@@ -31,24 +31,33 @@ namespace Formula_1_Drag_Race
 
         private void RefreshGame(object sender, EventArgs e)
         {
-            if (player1.Right >= finishLine1.Left && gameFinished == false)
+            if (gameFinished == false)
             {
-                label1.Text = "Player 1 wins!";
-                gameFinished = true;
-                player1Speed = 0;
-                player2Speed = 0;
-                //timer1.Stop();
-                //freeroam or restart
-            }
+                if (player1.Right >= finishLine1.Left && player1Speed > 0)
+                {
+                    label1.Text = "Player 1 wins!";
+                    gameFinished = true;
+                    //restart button
+                }
+                else if (player1.Left <= finishLine1.Right && player1.Left > 500)
+                {
+                    label1.ForeColor = Color.Red;
+                    label1.Text = "Player 1 cheated!";
+                    gameFinished = true;
+                }
 
-            if (player2.Right >= finishLine1.Left && gameFinished == false)
-            {
-                label1.Text = "Player 2 wins!";
-                gameFinished = true;
-                player1Speed = 0;
-                player2Speed = 0;
-                //timer1.Stop();
-                //freeroam or restart
+                if (player2.Right >= finishLine1.Left && player2Speed > 0)
+                {
+                    label1.Text = "Player 2 wins!";
+                    gameFinished = true;
+                    //restart button
+                }
+                else if (player2.Left <= finishLine1.Right && player2.Left > 500)
+                {
+                    label1.ForeColor = Color.Red;
+                    label1.Text = "Player 2 cheated!";
+                    gameFinished = true;
+                }
             }
 
             if (wDown == true)
@@ -97,7 +106,6 @@ namespace Formula_1_Drag_Race
                 }
             }
             
-
             if (player1Speed > 0 && wDown == false)
             {
                 player1Speed -= 0.2;
@@ -134,8 +142,22 @@ namespace Formula_1_Drag_Race
                 player2.Left = 1280;
             }
 
-            speedText1.Text = Math.Round(player1Speed * 3.6).ToString() + " km/h";
-            speedText2.Text = Math.Round(player2Speed * 3.6).ToString() + "km/h";
+            if (-1 < player1Speed && player1Speed < 1)
+            {
+                speedText1.Text = "0 km/h";
+            }
+            else
+            {
+                speedText1.Text = Math.Round(player1Speed * 3.6).ToString() + " km/h";
+            }
+            if (-1 < player2Speed && player2Speed < 1)
+            {
+                speedText2.Text = "0 km/h";
+            }
+            else
+            {
+                speedText2.Text = Math.Round(player2Speed * 3.6).ToString() + "km/h";
+            }
             player1.Left += (int)Math.Round(player1Speed);
             player2.Left += (int)Math.Round(player2Speed);
         }
@@ -151,10 +173,13 @@ namespace Formula_1_Drag_Race
                         reaction1.Stop();
                         reactionText1.Text = "Reaction: " + reaction1.ElapsedMilliseconds.ToString() + " ms";
                     }
-                    if (reaction1.IsRunning == false)
+                    else if (reaction1.IsRunning == false)
                     {
                         reactionText1.ForeColor = Color.Red;
-                        reactionText1.Text = "Player 1 jumpstart!";
+                        reactionText1.Text = "Jumpstart!";
+                        label1.ForeColor = Color.Red;
+                        label1.Text = "Player 1 jumpstart!";
+                        gameFinished = true;
                     }
                     firstPress1 = false;
                 }
@@ -162,10 +187,7 @@ namespace Formula_1_Drag_Race
             }
             else if (e.KeyCode == Keys.S)
             {
-                if (gameStarted == true)
-                {
-                    sDown = true;
-                }
+                sDown = true;
             }
 
             if (e.KeyCode == Keys.Up)
@@ -177,10 +199,13 @@ namespace Formula_1_Drag_Race
                         reaction2.Stop();
                         reactionText2.Text = "Reaction: " + reaction2.ElapsedMilliseconds.ToString() + " ms";
                     }
-                    if (reaction2.IsRunning == false)
+                    else if (reaction2.IsRunning == false)
                     {
                         reactionText2.ForeColor = Color.Red;
-                        reactionText2.Text = "Player 2 jumpstart!";
+                        reactionText2.Text = "Jumpstart!";
+                        label1.ForeColor = Color.Red;
+                        label1.Text = "Player 2 jumpstart!";
+                        gameFinished = true;
                     }
                     firstPress2 = false;
                 }
@@ -227,7 +252,7 @@ namespace Formula_1_Drag_Race
             Rectangle container = new(377, 270, 525, 100);
             graphics.FillRectangle(Brushes.Black, container);
 
-            Rectangle[] light = new Rectangle[5];
+            light = new Rectangle[5];
 
             for (int i = 0; i < light.Length; i++)
             {
@@ -235,24 +260,18 @@ namespace Formula_1_Drag_Race
                 graphics.FillEllipse(Brushes.DarkGray, light[i]);
             }
 
-            for (int i = 0; i < light.Length; i++)
-            {
-                Thread.Sleep(1000);
-                graphics.FillEllipse(Brushes.Red, light[i]);
-            }
+            Timer timer3 = new(Light1On, null, 1000, Timeout.Infinite);
+            Timer timer4 = new(Light2On, null, 2000, Timeout.Infinite);
+            Timer timer5 = new(Light3On, null, 3000, Timeout.Infinite);
+            Timer timer6 = new(Light4On, null, 4000, Timeout.Infinite);
+            Timer timer7 = new(Light5On, null, 5000, Timeout.Infinite);
+
             Random random = new();
             int rand = random.Next(200, 4000);
-            Thread.Sleep(rand);
+            Timer timer8 = new(LightsOff, null, 5000 + rand, Timeout.Infinite);
 
-            for (int i = 0; i < light.Length; i++)
-            {
-                graphics.FillEllipse(Brushes.DarkGray, light[i]);
-            }
-            reaction1.Start();
-            reaction2.Start();
+            Timer timer2 = new(HideLights, null, 5000 + rand + 1000, Timeout.Infinite);
             timer1.Start();
-            gameStarted = true;
-            Timer timer = new(HideLights, null, 1000, Timeout.Infinite);
         }
 
         private void HideLights(object? state)
@@ -260,13 +279,42 @@ namespace Formula_1_Drag_Race
             Invalidate();
             graphics?.Dispose();
         }
+
+        private void Light1On(object? state)
+        {
+            graphics?.FillEllipse(Brushes.Red, light[0]);
+        }
+
+        private void Light2On(object? state)
+        {
+            graphics?.FillEllipse(Brushes.Red, light[1]);
+        }
+
+        private void Light3On(object? state)
+        {
+            graphics?.FillEllipse(Brushes.Red, light[2]);
+        }
+
+        private void Light4On(object? state)
+        {
+            graphics?.FillEllipse(Brushes.Red, light[3]);
+        }
+
+        private void Light5On(object? state)
+        {
+            graphics?.FillEllipse(Brushes.Red, light[4]);
+        }
+
+        private void LightsOff(object? state)
+        {
+            for (int i = 0; i < light.Length; i++)
+            {
+                graphics?.FillEllipse(Brushes.DarkGray, light[i]);
+            }
+            reaction1.Start();
+            reaction2.Start();
+        }
     }
 }
 
-//fixa så bilarnas movement blir smooth, just nu hackigt för att jag tvingas avrunda uträkningen av positionerna vid varje tick - så de hoppar tillbaka ibland
-//lägga till cheating (om man backar)
-//lära mig använda olika threads för att kunna göra flera saker samtidigt, t.ex. kolla och initiera jumpstart samtidigt som lights animationen
-//göra fönstret och contenten responsiv/anpassningsbar
-//när någon vunnit ska det komma upp ett val så man kan reset game eller freeroam (med en paus ikon)
-//göra meny som låter en gå direkt till freeroam eller dragrace
-//fixa så bilarnas movement blir smooth, just nu hackigt för att jag tvingas avrunda uträkningen av positionerna vid varje tick - så de hoppar tillbaka ibland
+//reset button för att starta om spelet
