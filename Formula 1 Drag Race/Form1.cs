@@ -15,11 +15,12 @@ namespace Formula_1_Drag_Race
         bool upDown;
         bool downDown;
         bool gameFinished;
+        bool restartGame = false;
         bool firstPress1 = true;
         bool firstPress2 = true;
 
         Graphics? graphics;
-        Rectangle[] light;
+        Rectangle[]? light;
 
         readonly Stopwatch reaction1 = new();
         readonly Stopwatch reaction2 = new();
@@ -37,26 +38,44 @@ namespace Formula_1_Drag_Race
                 {
                     label1.Text = "Player 1 wins!";
                     gameFinished = true;
-                    //restart button
+                    label2.Visible = true;
+                    Invalidate();
+                    graphics?.Dispose();
+                    label2.Text = "Press Enter to restart...";
+                    restartGame = true;
                 }
                 else if (player1.Left <= finishLine1.Right && player1.Left > 500 && player1Speed < 0)
                 {
                     label1.ForeColor = Color.Red;
                     label1.Text = "Player 1 cheated!";
                     gameFinished = true;
+                    label2.Visible = true;
+                    Invalidate();
+                    graphics?.Dispose();
+                    label2.Text = "Press Enter to restart...";
+                    restartGame = true;
                 }
 
                 if (player2.Right >= finishLine1.Left && player2Speed > 0)
                 {
                     label1.Text = "Player 2 wins!";
                     gameFinished = true;
-                    //restart button
+                    label2.Visible = true;
+                    Invalidate();
+                    graphics?.Dispose();
+                    label2.Text = "Press Enter to restart...";
+                    restartGame = true;
                 }
                 else if (player2.Left <= finishLine1.Right && player2.Left > 500 && player2Speed < 0)
                 {
                     label1.ForeColor = Color.Red;
                     label1.Text = "Player 2 cheated!";
                     gameFinished = true;
+                    Invalidate();
+                    graphics?.Dispose();
+                    label2.Visible = true;
+                    label2.Text = "Press Enter to restart...";
+                    restartGame = true;
                 }
             }
 
@@ -180,6 +199,11 @@ namespace Formula_1_Drag_Race
                         label1.ForeColor = Color.Red;
                         label1.Text = "Player 1 jumpstart!";
                         gameFinished = true;
+                        Invalidate();
+                        graphics?.Dispose();
+                        label2.Visible = true;
+                        label2.Text = "Press Enter to restart...";
+                        restartGame = true;
                     }
                     firstPress1 = false;
                 }
@@ -206,6 +230,11 @@ namespace Formula_1_Drag_Race
                         label1.ForeColor = Color.Red;
                         label1.Text = "Player 2 jumpstart!";
                         gameFinished = true;
+                        Invalidate();
+                        graphics?.Dispose();
+                        label2.Visible = true;
+                        label2.Text = "Press Enter to restart...";
+                        restartGame = true;
                     }
                     firstPress2 = false;
                 }
@@ -216,7 +245,11 @@ namespace Formula_1_Drag_Race
                 downDown = true;
             }
 
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter && restartGame == true)
+            {
+                Application.Restart();
+            }
+            else if (e.KeyCode == Keys.Enter && timer1.Enabled == false)
             {
                 LightsOut();
             }
@@ -282,39 +315,55 @@ namespace Formula_1_Drag_Race
 
         private void Light1On(object? state)
         {
-            graphics?.FillEllipse(Brushes.Red, light[0]);
+            if (!gameFinished && light is not null)
+            {
+                graphics?.FillEllipse(Brushes.Red, light[0]);
+            }
         }
 
         private void Light2On(object? state)
         {
-            graphics?.FillEllipse(Brushes.Red, light[1]);
+            if (!gameFinished && light is not null)
+            {
+                graphics?.FillEllipse(Brushes.Red, light[1]);
+            }
         }
 
         private void Light3On(object? state)
         {
-            graphics?.FillEllipse(Brushes.Red, light[2]);
+            if (!gameFinished && light is not null)
+            {
+                graphics?.FillEllipse(Brushes.Red, light[2]);
+            }
         }
 
         private void Light4On(object? state)
         {
-            graphics?.FillEllipse(Brushes.Red, light[3]);
+            if (!gameFinished && light is not null)
+            {
+                graphics?.FillEllipse(Brushes.Red, light[3]);
+            }
         }
 
         private void Light5On(object? state)
         {
-            graphics?.FillEllipse(Brushes.Red, light[4]);
+            if (!gameFinished && light is not null)
+            {
+                graphics?.FillEllipse(Brushes.Red, light[4]);
+            }
         }
 
         private void LightsOff(object? state)
         {
-            for (int i = 0; i < light.Length; i++)
+            if (!gameFinished && light is not null)
             {
-                graphics?.FillEllipse(Brushes.DarkGray, light[i]);
+                for (int i = 0; i < light.Length; i++)
+                {
+                    graphics?.FillEllipse(Brushes.DarkGray, light[i]);
+                }
+                reaction1.Start();
+                reaction2.Start();
             }
-            reaction1.Start();
-            reaction2.Start();
         }
     }
 }
-
-//reset button för att starta om spelet
