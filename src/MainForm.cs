@@ -1,9 +1,9 @@
-using Timer = System.Threading.Timer;
 using System.Diagnostics;
+using Timer = System.Threading.Timer;
 
-namespace Formula_1_Drag_Race
+namespace F1DragRace
 {
-    public partial class GameForm : Form
+    public partial class MainForm : Form
     {
         double player1Speed = 0;
         double player2Speed = 0;
@@ -25,7 +25,7 @@ namespace Formula_1_Drag_Race
         readonly Stopwatch reaction1 = new();
         readonly Stopwatch reaction2 = new();
 
-        public GameForm()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -124,7 +124,7 @@ namespace Formula_1_Drag_Race
                     player2Speed -= 0.6;
                 }
             }
-            
+
             if (player1Speed > 0 && wDown == false)
             {
                 player1Speed -= 0.2;
